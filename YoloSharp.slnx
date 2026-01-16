@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/YoloSharp.Bitmap/YoloSharp.Bitmap.csproj" Id="aa9213c8-0580-4dfb-bf1f-143eed8b8296" />
+    <Project Path="src/YoloSharp.Core/YoloSharp.Core.csproj" Id="196e2819-7d12-40de-a0df-1a1604bb92a6" />
+    <Project Path="src/YoloSharp/YoloSharp.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/yolo12/yolo12.csproj" Id="b61a1bc7-3090-4e08-935d-db83089620c7" />
+    <Project Path="test/yolo26/yolo26.csproj" Id="0e0e2c9e-51f0-4736-8284-b9c8fd78c523" />
+  </Folder>
+</Solution>
