@@ -51,6 +51,26 @@ namespace YoloSharp
         public string? Version { get; private set; }
 
         /// <summary>
+        /// 模型任务类型
+        /// </summary>
+        public string? Task { get; private set; }
+
+        /// <summary>
+        /// 模型作者
+        /// </summary>
+        public string? Author { get; private set; }
+
+        /// <summary>
+        /// 模型创建日期
+        /// </summary>
+        public string? Date { get; private set; }
+
+        /// <summary>
+        /// 模型描述
+        /// </summary>
+        public string? Description { get; private set; }
+
+        /// <summary>
         /// 是否为YOLO26模型
         /// </summary>
         public bool IsYOLO26 { get; private set; }
@@ -86,9 +106,16 @@ namespace YoloSharp
         Dictionary<int, string> ReadModel()
         {
             var metadata = session.ModelMetadata.CustomMetadataMap;
-            if (metadata.ContainsKey("description") && metadata["description"].Contains("YOLO26")) IsYOLO26 = true;
+            if (metadata.ContainsKey("description"))
+            {
+                Description = metadata["description"];
+                IsYOLO26 = Description.Contains("YOLO26");
+            }
             if (metadata.ContainsKey("imgsz")) ImageSize = Helper.ParseSize(metadata["imgsz"]);
             if (metadata.ContainsKey("version")) Version = metadata["version"];
+            if (metadata.ContainsKey("task")) Task = metadata["task"];
+            if (metadata.ContainsKey("author")) Author = metadata["author"];
+            if (metadata.ContainsKey("date")) Date = metadata["date"];
             return metadata.ContainsKey("names") ? metadata["names"].ParseNames() : new Dictionary<int, string>(0);
         }
 
@@ -99,13 +126,11 @@ namespace YoloSharp
         /// <summary>
         /// 目标检测
         /// </summary>
-        /// <param name="inputTensor">输入张量（CHW格式，已归一化到0-1）</param>
-        /// <param name="input_width">原始输入图像宽度</param>
-        /// <param name="input_height">原始输入图像高度</param>
+        /// <param name="input">输入</param>
         /// <returns>检测到的边界框列表</returns>
-        public List<BoundingBox>? Detect(DenseTensor<float> inputTensor, int input_width, int input_height)
+        public List<BoundingBox>? Detect(IInput input)
         {
-            var inputs = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor(session.InputNames[0], inputTensor) };
+            var inputs = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor(session.InputNames[0], input.DenseTensor) };
             using (var outputs = session.Run(inputs))
             {
                 if (outputs[0].Value is DenseTensor<float> tensor)
@@ -134,7 +159,7 @@ namespace YoloSharp
                             // 计算边界框尺寸
                             RectangleF modelRect = new RectangleF(x1, y1, x2 - x1, y2 - y1);
                             // 调整边界框到原始图像尺寸
-                            var rect = Helper.Adjust(modelRect, input_width, input_height, ImageSize);
+                            var rect = Helper.Adjust(modelRect, input.Width, input.Height, ImageSize);
 
                             bs.Add(new BoundingBox
                             {
@@ -199,7 +224,7 @@ namespace YoloSharp
                             var box = new List<BoundingBox>(result.Count);
                             foreach (var it in result)
                             {
-                                var rect = Helper.Adjust(it.Bounds, input_width, input_height, ImageSize);
+                                var rect = Helper.Adjust(it.Bounds, input.Width, input.Height, ImageSize);
                                 box.Add(new BoundingBox
                                 {
                                     Confidence = it.Confidence,

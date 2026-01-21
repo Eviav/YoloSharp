@@ -1,0 +1,12 @@
+<Project>
+
+	<PropertyGroup>
+		<Authors>Tom</Authors>
+		<Company>Tom</Company>
+		<Copyright>Copyright © Tom 2026-2030</Copyright>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+
+</Project>

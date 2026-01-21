@@ -1,15 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net10.0;net8.0;net6.0</TargetFrameworks>
-		<Nullable>enable</Nullable>
-		<Authors>Tom</Authors>
-		<Company>Tom</Company>
-		<Copyright>Copyright © Tom 2026-2030</Copyright>
-		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<FileVersion>$(Version)</FileVersion>
-		<Version>0.0.1</Version>
-		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 

@@ -1,0 +1,11 @@
+<Project>
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0;net8.0;net6.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+		<Version>0.0.1</Version>
+	</PropertyGroup>
+
+</Project>

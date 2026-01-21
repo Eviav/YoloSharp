@@ -1,11 +1,13 @@
 <Solution>
+  <Folder Name="/examples/">
+    <Project Path="examples/Winform/Winform.csproj" Id="8c876489-6635-43fc-825f-e3f676444717" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/YoloSharp.Bitmap/YoloSharp.Bitmap.csproj" Id="aa9213c8-0580-4dfb-bf1f-143eed8b8296" />
     <Project Path="src/YoloSharp.Core/YoloSharp.Core.csproj" Id="196e2819-7d12-40de-a0df-1a1604bb92a6" />
     <Project Path="src/YoloSharp/YoloSharp.csproj" />
   </Folder>
   <Folder Name="/test/">
-    <Project Path="test/yolo12/yolo12.csproj" Id="b61a1bc7-3090-4e08-935d-db83089620c7" />
-    <Project Path="test/yolo26/yolo26.csproj" Id="0e0e2c9e-51f0-4736-8284-b9c8fd78c523" />
+    <Project Path="test/YoloSharp.Tests/YoloSharp.Tests.csproj" Id="3a0d4e5f-6789-4abc-def0-1234567890ab" />
   </Folder>
 </Solution>

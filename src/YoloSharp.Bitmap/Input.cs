@@ -8,25 +8,27 @@ namespace YoloSharp
     /// <summary>
     /// 图像输入处理类
     /// </summary>
-    public class Input
+    public class Input : IInput
     {
         /// <summary>
-        /// 将Bitmap图像转换为检测模型输入张量
+        /// 将图像转换为检测模型输入张量
         /// </summary>
         /// <param name="yolo">YOLO实例</param>
-        /// <param name="bmp">输入图像</param>
-        /// <returns>归一化后的CHW格式张量</returns>
-        public DenseTensor<float> Detection(IYolo yolo, Bitmap bmp)
+        /// <param name="image">输入图像</param>
+        /// <remarks>支持Bitmap、Image等图像类型</remarks>
+        public Input(IYolo yolo, Image image)
         {
+            Width = image.Width;
+            Height = image.Height;
             // 调整图像尺寸到模型输入大小
             using (var bmpCrop = new Bitmap(yolo.ImageSize.Width, yolo.ImageSize.Height))
             {
                 using (var g = Graphics.FromImage(bmpCrop))
                 {
-                    g.DrawImage(bmp, 0, 0, bmpCrop.Width, bmpCrop.Height);
+                    g.DrawImage(image, 0, 0, bmpCrop.Width, bmpCrop.Height);
                 }
                 // 获取RGB数据并转换为张量（已处理归一化和CHW排列）
-                return GetRGB(bmpCrop, out int stride).ConvertRgb24ToTensor(yolo.ImageSize);
+                DenseTensor = GetRGB(bmpCrop, out int stride).ConvertRgb24ToTensor(yolo.ImageSize);
             }
         }
 
@@ -51,5 +53,20 @@ namespace YoloSharp
             stride = bmpData.Stride;
             return buffer;
         }
+
+        /// <summary>
+        /// 模型输入张量，CHW格式
+        /// </summary>
+        public DenseTensor<float> DenseTensor { get; private set; }
+
+        /// <summary>
+        /// 原始图像宽度
+        /// </summary>
+        public int Width { get; private set; }
+
+        /// <summary>
+        /// 原始图像高度
+        /// </summary>
+        public int Height { get; private set; }
     }
 }
